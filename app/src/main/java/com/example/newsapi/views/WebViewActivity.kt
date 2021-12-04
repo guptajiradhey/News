@@ -1,11 +1,13 @@
 package com.example.newsapi.views
 
+import android.R.attr.key
 import android.os.Bundle
 import android.view.View
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.appcompat.app.AppCompatActivity
 import com.example.newsapi.R
+
 
 class WebViewActivity : AppCompatActivity() {
     lateinit var  browser:WebView
@@ -15,6 +17,7 @@ class WebViewActivity : AppCompatActivity() {
         setContentView(R.layout.activity_web_view)
 
         url= intent.getStringExtra("url").toString()
+       val article= intent.extras!!.getSerializable("article")
         browser=findViewById(R.id.webview)
 
         browser.webViewClient = MyBrowser()

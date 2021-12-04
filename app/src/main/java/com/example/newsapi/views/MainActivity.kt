@@ -1,47 +1,54 @@
 package com.example.newsapi.views
 
 import android.os.Bundle
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.RecyclerView
+import androidx.navigation.findNavController
+import androidx.navigation.ui.setupWithNavController
 import com.example.newsapi.NewsApplication
 import com.example.newsapi.R
-import com.example.newsapi.adapters.HeadineAdapter
+import com.example.newsapi.repository.HeadlinesRepository
 import com.example.newsapi.viewmodels.MainViewModel
 import com.example.newsapi.viewmodels.MainViewModelFactory
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {
     lateinit var mainViewModel: MainViewModel
-    lateinit var adapter: HeadineAdapter
+    lateinit var headlinesRepository: HeadlinesRepository
+    lateinit var bottomNavigaionView: BottomNavigationView
+    override fun onStart() {
+        super.onStart()
+        headlinesRepository = (application as NewsApplication).repository
+        mainViewModel = ViewModelProvider(
+            this,
+            MainViewModelFactory(headlinesRepository)
+        ).get(MainViewModel::class.java)
+    }
 
-    lateinit var recyclerView: RecyclerView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
 
-        recyclerView = findViewById(R.id.recyclerview)
-        recyclerView.layoutManager = GridLayoutManager(this, 2)
 
 
-        val headlinesRepository = (application as NewsApplication).repository
 
-        mainViewModel = ViewModelProvider(
-            this,
-            MainViewModelFactory(headlinesRepository)
-        ).get(MainViewModel::class.java)
-        Toast.makeText(this,"You are in "+mainViewModel.getcountry+"country",Toast.LENGTH_LONG).show()
+        bottomNavigaionView = findViewById(R.id.bottomNavigationView)
+        val navController = findNavController(R.id.nav_host_fragment)
+        bottomNavigaionView.setupWithNavController(navController)
 
-        mainViewModel.headlineResponse.observe(this, {
 
-            var list = it.articles
-            adapter = HeadineAdapter(list,this)
-            recyclerView.adapter = adapter
-
-        })
-        
-        Toast.makeText(this,mainViewModel.showadd.toString(),Toast.LENGTH_LONG).show()
+//        Toast.makeText(this,"You are in "+mainViewModel.getcountry+"country",Toast.LENGTH_LONG).show()
+//
+//        mainViewModel.headlineResponse.observe(this, {
+//
+//            var list = it.articles
+//            adapter = HeadineAdapter(this)
+//            adapter.differ.submitList(it.articles)
+//            recyclerView.adapter = adapter
+//
+//        })
+//
+//        Toast.makeText(this,mainViewModel.showadd.toString(),Toast.LENGTH_LONG).show()
     }
 }
