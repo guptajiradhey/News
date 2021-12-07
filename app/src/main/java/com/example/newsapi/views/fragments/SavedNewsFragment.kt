@@ -1,8 +1,10 @@
 package com.example.newsapi.views.fragments
 
+import android.opengl.Visibility
 import android.os.Bundle
 import android.view.View
 import android.widget.ProgressBar
+import android.widget.RelativeLayout
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -26,11 +28,13 @@ class SavedNewsFragment:Fragment(R.layout.fragment_saved_news){
     lateinit var  mainViewModel: MainViewModel
     lateinit var recyclerView: RecyclerView
     lateinit var adapter: HeadineAdapter
+    lateinit var  layout:RelativeLayout
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         recyclerView = view.findViewById(R.id.rvSavedNews)
+        layout = view.findViewById(R.id.emptyLayout)
 
         setUpRecyclerView()
         setUpViewModel()
@@ -75,6 +79,13 @@ class SavedNewsFragment:Fragment(R.layout.fragment_saved_news){
             attachToRecyclerView(recyclerView)
         }
         mainViewModel.getSavedNews().observe(viewLifecycleOwner, Observer { articles->
+             if(articles.isEmpty()){
+                 recyclerView.visibility=View.INVISIBLE
+                 layout.visibility=View.VISIBLE
+             }else{
+                 recyclerView.visibility=View.VISIBLE
+                 layout.visibility=View.INVISIBLE
+             }
             adapter.differ.submitList(articles)
 
         })
@@ -91,13 +102,16 @@ class SavedNewsFragment:Fragment(R.layout.fragment_saved_news){
     }
 
     private fun setUpViewModel() {
-//        var repository= HeadlinesRepository(requireContext(),
-//            ArticleDatabase(activity as MainActivity)
-//        )
-//        mainViewModel = ViewModelProvider(
-//            requireActivity(),
-//            MainViewModelFactory(repository)
-//        ).get(MainViewModel::class.java)
+        /*
+        var repository= HeadlinesRepository(requireContext(),
+            ArticleDatabase(activity as MainActivity)
+        )
+        mainViewModel = ViewModelProvider(
+            requireActivity(),
+            MainViewModelFactory(repository)
+        ).get(MainViewModel::class.java)
+
+         */
         mainViewModel=(activity as MainActivity).mainViewModel
     }
 }

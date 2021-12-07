@@ -21,7 +21,7 @@ class MainActivity : AppCompatActivity() {
         headlinesRepository = (application as NewsApplication).repository
         mainViewModel = ViewModelProvider(
             this,
-            MainViewModelFactory(headlinesRepository)
+            MainViewModelFactory(application,headlinesRepository)
         ).get(MainViewModel::class.java)
     }
 
@@ -37,18 +37,20 @@ class MainActivity : AppCompatActivity() {
         val navController = findNavController(R.id.nav_host_fragment)
         bottomNavigaionView.setupWithNavController(navController)
 
+         /*
+        Toast.makeText(this,"You are in "+mainViewModel.getcountry+"country",Toast.LENGTH_LONG).show()
 
-//        Toast.makeText(this,"You are in "+mainViewModel.getcountry+"country",Toast.LENGTH_LONG).show()
-//
-//        mainViewModel.headlineResponse.observe(this, {
-//
-//            var list = it.articles
-//            adapter = HeadineAdapter(this)
-//            adapter.differ.submitList(it.articles)
-//            recyclerView.adapter = adapter
-//
-//        })
-//
-//        Toast.makeText(this,mainViewModel.showadd.toString(),Toast.LENGTH_LONG).show()
+        mainViewModel.headlineResponse.observe(this, {
+
+            var list = it.articles
+            adapter = HeadineAdapter(this)
+            adapter.differ.submitList(it.articles)
+            recyclerView.adapter = adapter
+
+        })
+
+        Toast.makeText(this,mainViewModel.showadd.toString(),Toast.LENGTH_LONG).show()
+
+        */
     }
 }

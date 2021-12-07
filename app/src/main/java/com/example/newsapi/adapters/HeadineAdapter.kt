@@ -32,7 +32,7 @@ class HeadineAdapter (
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val article = differ.currentList[position]
-        holder.tvSource.text=article.source.name
+        holder.tvSource.text=article.source?.name
         holder.tvDescription.text=article.description
         holder.tvPublishedAt.text=article.publishedAt
         holder.tvTitle.text=article.title

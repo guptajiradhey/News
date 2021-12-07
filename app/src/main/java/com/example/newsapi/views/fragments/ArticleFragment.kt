@@ -31,7 +31,7 @@ class ArticleFragment :Fragment(R.layout.fragment_article){
             settings.loadsImagesAutomatically
             settings.javaScriptEnabled
             scrollBarStyle=View.SCROLLBARS_INSIDE_OVERLAY
-            loadUrl(article.url)
+            loadUrl(article.url.toString())
         }
         fab.setOnClickListener {
             viewModel.saveArticle(article)
